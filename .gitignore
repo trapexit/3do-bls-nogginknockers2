@@ -1,0 +1,7 @@
+/build/
+/iso/
+/takeme/LaunchMe
+/.codegraph/
+__pycache__/
+*.py[cod]
+*~

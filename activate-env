@@ -1,0 +1,63 @@
+script_basepath() {
+    if test -n "$BASH" ; then filepath=$BASH_SOURCE
+    elif test -n "$TMOUT"; then filepath=${.sh.file}
+    elif test -n "$ZSH_NAME" ; then filepath=${(%):-%x}
+    elif test ${0##*/} = dash; then x=$(lsof -p $$ -Fn0 | tail -1); filepath=${x#n}
+    else filepath=$0
+    fi
+
+    filepath=$(readlink -f "${filepath}")
+    dirpath=$(dirname "${filepath}")
+
+    echo $(cd "${dirpath}" && pwd)
+}
+
+deactivate-env() {
+    if [ -z "$TDO_DEVKIT_PATH" ]; then
+        echo "3DO development environment not activated."
+        return 1
+    fi
+
+    if [ -n "$MSYSTEM" ] || [[ "$OSTYPE" == *msys* ]]; then
+        PATH=${PATH//:$TDO_DEVKIT_PATH/bin/compiler/win}
+        PATH=${PATH//:$TDO_DEVKIT_PATH/bin/tools/win}
+        PATH=${PATH//:$TDO_DEVKIT_PATH/bin/buildtools/win}
+    else
+        PATH=${PATH//:$TDO_DEVKIT_PATH/bin/compiler/linux}
+        PATH=${PATH//:$TDO_DEVKIT_PATH/bin/tools/linux}
+        PATH=${PATH//:$TDO_DEVKIT_PATH/bin/buildtools/linux}
+    fi
+    export PATH
+    unset TDO_DEVKIT_PATH
+    unset -f deactivate-env
+    echo "3DO development environment deactivated."
+}
+
+if [ -z "$TDO_DEVKIT_PATH" ]; then
+    if [ -f ".devkit-path" ]; then
+        basepath=$(cat .devkit-path)
+    else
+        basepath=$(script_basepath)
+    fi
+    export TDO_DEVKIT_PATH="$basepath"
+
+    if [ -n "$MSYSTEM" ] || [[ "$OSTYPE" == *msys* ]]; then
+        export PATH="$PATH:$basepath/bin/compiler/win"
+        export PATH="$PATH:$basepath/bin/tools/win"
+        export PATH="$PATH:$basepath/bin/buildtools/win"
+    else
+        export PATH="$PATH:$basepath/bin/compiler/linux"
+        export PATH="$PATH:$basepath/bin/tools/linux"
+        export PATH="$PATH:$basepath/bin/buildtools/linux"
+    fi
+fi
+
+if command -v armcc >/dev/null 2>&1; then
+    echo "3DO development environment activated. Run 'deactivate-env' to deactivate."
+else
+    echo "Error: Activation failed. armcc not found in PATH."
+    if [ -f ".devkit-path" ]; then
+        echo "Note: .devkit-path contains: $basepath"
+        echo "If this path is wrong, update .devkit-path."
+    fi
+fi

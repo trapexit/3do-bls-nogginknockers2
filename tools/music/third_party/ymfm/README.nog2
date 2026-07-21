@@ -1,0 +1,22 @@
+ymfm source provenance
+======================
+
+Project: https://github.com/aaronsgiles/ymfm
+Commit: 81aec25ccbb98f4873a255f7551ac4dadac59b4a
+License: BSD-3-Clause (see LICENSE)
+
+Only the files required by the YM3812 implementation are included.  They are
+unmodified from the commit above.
+
+SHA-256:
+
+f5ab6fed63c8669abab8403e0e93132e1dad0ae4d8e4954e7836ab9e5b228405  ymfm.h
+1b27bfb7fa4963d7c54cb06fd9bf659450362d8ed496c6af7d487b068cac45c9  ymfm_fm.h
+4fb7fe59d4494a19e9f9c7888eb644a63d86e109fdefb27a8117bf6a5f6ab4b9  ymfm_fm.ipp
+b01d13720c61cf040d10a2e68ee3e002e4467b9c795978514d58be6245dcbda5  ymfm_opl.h
+e745673678d0de9733488427397e794d42348bb000dd45f6665d6f063963d517  ymfm_opl.cpp
+5933691971493b853a9be443f6e6fd74f63869aa21225f66dd89fc20de20914d  ymfm_adpcm.h
+74e5ded129ea7e532112e5b637d0a7bd4e127fd83331f1fac32011723051d4e0  ymfm_adpcm.cpp
+d738b45f9406da413d29334ec062f217c42811af68ffa599ae4a2dc839cc2200  ymfm_pcm.h
+3099d770b876dcdcb8a4c15df48fcc3475f22eca5a144b66581bfa7ebbf499ab  ymfm_pcm.cpp
+2d2e9213c170a9866c616fa85b6da993a6724e10befc61f468ed9bfb84c4691c  LICENSE
